@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard FPB & KPK</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 text-white min-h-screen">
+  
+  <!-- Mobile Menu Button -->
+  <button 
+    id="mobileMenuBtn" 
+    class="fixed top-4 left-4 z-50 lg:hidden bg-blue-600 p-3 rounded-lg shadow-lg"
+    onclick="toggleSidebar()"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+
+<!-- Sidebar -->
+<div id="sidebar" class="fixed left-0 top-0 h-full w-80 glass-effect sidebar-transition transform -translate-x-full lg:translate-x-0 z-40 flex flex-col">
+  <div class="p-6 flex-1 overflow-y-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex items-center mb-2">
+        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+          <span class="text-xl">
+            <img src="logo.png" alt="gambar" class="w-8 h-8">
+          </span>
+        </div>
+        <h1 class="text-xl font-bold">MathDash</h1>
+      </div>
+      <p class="text-gray-400 text-sm">Dashboard Matematika</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="mb-8">
+      <ul class="space-y-2">
+        <li>
+          <a href="#" class="flex items-center p-3 rounded-lg bg-blue-600/20 text-blue-300 border border-blue-500/30">
+            <span class="mr-3">📊</span>
+            FPB & KPK
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors">
+            <span class="mr-3">🌳</span>
+            Pohon Faktor
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors">
+            <span class="mr-3">🔢</span>
+            Bilangan Prima
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors">
+            <span class="mr-3">📈</span>
+            Statistik
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Input Panel -->
+    <div class="space-y-4">
+      <h3 class="font-semibold text-gray-300 mb-3">Input Data</h3>
+      <div>
+        <label class="block text-sm text-gray-400 mb-2">Masukkan Angka</label>
+        <input
+          id="inputNumbers"
+          type="text"
+          placeholder="12 18 24"
+          class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-blue-500 focus:outline-none transition-colors"
+        />
+        <p class="text-xs text-gray-500 mt-1">Pisahkan dengan spasi</p>
+      </div>
+      <button
+        onclick="hitung()"
+        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+      >
+        ⚡ Hitung Sekarang
+      </button>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="mt-8">
+      <h3 class="font-semibold text-gray-300 mb-3">Statistik Cepat</h3>
+      <div class="space-y-2">
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-400">Total Perhitungan</span>
+          <span class="text-green-400" id="totalCalculations">0</span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-400">Angka Terbesar</span>
+          <span class="text-yellow-400" id="maxNumber">-</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Directed by -->
+  <div class="p-4 text-center border-t border-gray-700">
+    <p class="text-xs text-gray-500">Directed by | <span class="text-white font-bold">Ananta Firdaus
+
+    </span></p>
+  </div>
+</div>
+
+
+  <!-- Main Content -->
+  <div class="lg:ml-80 min-h-screen">
+    <!-- Top Bar -->
+    <div class="bg-black/20 backdrop-blur-sm border-b border-gray-700 p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">Dashboard FPB & KPK</h2>
+          <p class="text-gray-400">Hitung Faktor Persekutuan Terbesar & Kelipatan Persekutuan Terkecil</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="text-right">
+            <div class="text-sm text-gray-400">Waktu</div>
+            <div class="font-semibold" id="currentTime">--:--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="p-6">
+      
+      <!-- Welcome Card -->
+      <div id="welcomeCard" class="glass-effect rounded-2xl p-8 mb-6 card-hover">
+        <div class="text-center">
+          <div class="text-6xl mb-4">🎯</div>
+          <h3 class="text-2xl font-bold mb-2">Selamat Datang di MathDash</h3>
+          <p class="text-gray-400 mb-6">Masukkan angka di panel samping untuk memulai perhitungan FPB & KPK</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-blue-500/20 p-4 rounded-lg border border-blue-500/30">
+              <div class="text-2xl mb-2">📊</div>
+              <div class="font-semibold">Perhitungan Cepat</div>
+              <div class="text-sm text-gray-400">FPB & KPK otomatis</div>
+            </div>
+            <div class="bg-green-500/20 p-4 rounded-lg border border-green-500/30">
+              <div class="text-2xl mb-2">🌳</div>
+              <div class="font-semibold">Visualisasi Tree</div>
+              <div class="text-sm text-gray-400">Pohon faktor interaktif</div>
+            </div>
+            <div class="bg-purple-500/20 p-4 rounded-lg border border-purple-500/30">
+              <div class="text-2xl mb-2">⚡</div>
+              <div class="font-semibold">Real-time</div>
+              <div class="text-sm text-gray-400">Hasil langsung</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Area -->
+      <div id="resultsArea" class="hidden space-y-6">
+        <!-- Summary Cards -->
+        <div id="summaryCards" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6"></div>
+        
+        <!-- Detailed Results -->
+        <div id="detailedResults" class="space-y-6"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay for mobile -->
+  <div id="overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden" onclick="toggleSidebar()"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
