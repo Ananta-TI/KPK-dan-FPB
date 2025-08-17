@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard FPB & KPK</title>
+  <title>Enhanced MathDash - Dashboard FPB & KPK</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="logo.png">
-
 </head>
 <body class="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 text-white min-h-screen">
   
   <!-- Mobile Menu Button -->
   <button 
     id="mobileMenuBtn" 
-    class="fixed top-4 left-4 z-50 lg:hidden bg-blue-600 p-3 rounded-lg shadow-lg"
+    class="fixed top-4 left-4 z-50 lg:hidden bg-blue-600 p-3 rounded-lg shadow-lg tooltip"
+    data-tooltip="Buka Menu"
     onclick="toggleSidebar()"
   >
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,53 +21,57 @@
     </svg>
   </button>
 
-<!-- Sidebar -->
+<!-- Enhanced Sidebar -->
 <div id="sidebar" class="fixed left-0 top-0 h-full w-80 glass-effect sidebar-transition transform -translate-x-full lg:translate-x-0 z-40 flex flex-col">
   <div class="p-6 flex-1 overflow-y-auto">
     <!-- Header -->
     <div class="mb-8">
       <div class="flex items-center mb-2">
         <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-          <span class="text-xl">
-            <img src="logo.png" alt="gambar" class="w-8 h-8">
-          </span>
+          <span class="text-xl">🧮</span>
         </div>
-        <h1 class="text-xl font-bold">MathDash</h1>
+        <h1 class="text-xl font-bold">MathDash Pro</h1>
       </div>
-      <p class="text-gray-400 text-sm">Dashboard Matematika</p>
+      <p class="text-gray-400 text-sm">Dashboard Matematika Advanced</p>
     </div>
 
-    <!-- Navigation -->
+    <!-- Enhanced Navigation -->
     <nav class="mb-8">
       <ul class="space-y-2">
         <li>
-          <a href="#" class="flex items-center p-3 rounded-lg bg-blue-600/20 text-blue-300 border border-blue-500/30">
+          <a href="#" class="flex items-center p-3 rounded-lg bg-blue-600/20 text-blue-300 border border-blue-500/30 tooltip" data-tooltip="Hitung FPB & KPK">
             <span class="mr-3">📊</span>
             FPB & KPK
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors">
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors tooltip" data-tooltip="Visualisasi Pohon Faktor">
             <span class="mr-3">🌳</span>
             Pohon Faktor
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors">
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors tooltip" data-tooltip="Analisis Bilangan Prima">
             <span class="mr-3">🔢</span>
             Bilangan Prima
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors">
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors tooltip" data-tooltip="Lihat Statistik">
             <span class="mr-3">📈</span>
             Statistik
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors tooltip" data-tooltip="Riwayat Perhitungan">
+            <span class="mr-3">📋</span>
+            Riwayat
           </a>
         </li>
       </ul>
     </nav>
 
-    <!-- Input Panel -->
+    <!-- Enhanced Input Panel -->
     <div class="space-y-4">
       <h3 class="font-semibold text-gray-300 mb-3">Input Data</h3>
       <div>
@@ -79,55 +82,85 @@
           placeholder="12 18 24"
           class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-blue-500 focus:outline-none transition-colors"
         />
-        <p class="text-xs text-gray-500 mt-1">Pisahkan dengan spasi</p>
+        <p class="text-xs text-gray-500 mt-1">Pisahkan dengan spasi atau koma</p>
+        <div class="progress-bar">
+          <div id="inputProgress" class="progress-fill" style="width: 0%"></div>
+        </div>
       </div>
+      
+      <!-- Quick Input Buttons -->
+      <div class="grid grid-cols-3 gap-2">
+        <button onclick="setQuickInput('12 18')" class="text-xs bg-gray-700 hover:bg-gray-600 p-2 rounded transition-colors">12, 18</button>
+        <button onclick="setQuickInput('15 25 35')" class="text-xs bg-gray-700 hover:bg-gray-600 p-2 rounded transition-colors">15, 25, 35</button>
+        <button onclick="setQuickInput('20 30 40')" class="text-xs bg-gray-700 hover:bg-gray-600 p-2 rounded transition-colors">20, 30, 40</button>
+      </div>
+      
       <button
         onclick="hitung()"
-        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg tooltip"
+        data-tooltip="Klik atau tekan Enter"
       >
         ⚡ Hitung Sekarang
       </button>
+      
+      <button
+        onclick="clearAll()"
+        class="w-full bg-gray-600 hover:bg-gray-500 py-2 rounded-lg font-semibold transition-all duration-200"
+      >
+        🗑️ Bersihkan
+      </button>
     </div>
 
-    <!-- Quick Stats -->
+    <!-- Enhanced Quick Stats -->
     <div class="mt-8">
-      <h3 class="font-semibold text-gray-300 mb-3">Statistik Cepat</h3>
-      <div class="space-y-2">
-        <div class="flex justify-between text-sm">
-          <span class="text-gray-400">Total Perhitungan</span>
-          <span class="text-green-400" id="totalCalculations">0</span>
+      <h3 class="font-semibold text-gray-300 mb-3">Statistik Real-time</h3>
+      <div class="space-y-3">
+        <div class="enhanced-card p-3">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-400">Total Perhitungan</span>
+            <span class="text-green-400 font-bold" id="totalCalculations">0</span>
+          </div>
         </div>
-        <div class="flex justify-between text-sm">
-          <span class="text-gray-400">Angka Terbesar</span>
-          <span class="text-yellow-400" id="maxNumber">-</span>
+        <div class="enhanced-card p-3">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-400">Angka Terbesar</span>
+            <span class="text-yellow-400 font-bold" id="maxNumber">-</span>
+          </div>
+        </div>
+        <div class="enhanced-card p-3">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-400">Rata-rata Waktu</span>
+            <span class="text-blue-400 font-bold" id="avgTime">-</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Directed by -->
+  <!-- Enhanced Footer -->
   <div class="p-4 text-center border-t border-gray-700">
-    <p class="text-xs text-gray-500">Directed by | <span class="text-white font-bold">Ananta Firdaus
-
-    </span></p>
+    <p class="text-xs text-gray-500">Enhanced by | <span class="text-white font-bold">Ananta Firdaus</span></p>
+    <p class="text-xs text-gray-400 mt-1">Version 2.0 Beta</p>
   </div>
 </div>
 
-
   <!-- Main Content -->
   <div class="lg:ml-80 min-h-screen">
-    <!-- Top Bar -->
+    <!-- Enhanced Top Bar -->
     <div class="bg-black/20 backdrop-blur-sm border-b border-gray-700 p-4">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-2xl font-bold">Dashboard FPB & KPK</h2>
-          <p class="text-gray-400">Hitung Faktor Persekutuan Terbesar & Kelipatan Persekutuan Terkecil</p>
+          <h2 class="text-2xl font-bold">Dashboard FPB & KPK Enhanced</h2>
+          <p class="text-gray-400">Hitung Faktor Persekutuan Terbesar & Kelipatan Persekutuan Terkecil dengan Visualisasi</p>
         </div>
         <div class="flex items-center space-x-4">
           <div class="text-right">
-            <div class="text-sm text-gray-400">Waktu</div>
-            <div class="font-semibold" id="currentTime">--:--</div>
+            <div class="text-sm text-gray-400">Waktu Real-time</div>
+            <div class="font-semibold text-lg" id="currentTime">--:--:--</div>
           </div>
+          <button class="tooltip bg-gray-700 hover:bg-gray-600 p-2 rounded-lg transition-colors" data-tooltip="Pengaturan">
+            ⚙️
+          </button>
         </div>
       </div>
     </div>
@@ -135,27 +168,27 @@
     <!-- Dashboard Content -->
     <div class="p-6">
       
-      <!-- Welcome Card -->
-      <div id="welcomeCard" class="glass-effect rounded-2xl p-8 mb-6 card-hover">
+      <!-- Enhanced Welcome Card -->
+      <div id="welcomeCard" class="enhanced-card p-8 mb-6 card-hover">
         <div class="text-center">
-          <div class="text-6xl mb-4">🎯</div>
-          <h3 class="text-2xl font-bold mb-2">Selamat Datang di MathDash</h3>
-          <p class="text-gray-400 mb-6">Masukkan angka di panel samping untuk memulai perhitungan FPB & KPK</p>
+          <div class="text-6xl mb-4 animate-bounce">🎯</div>
+          <h3 class="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Selamat Datang di MathDash Pro</h3>
+          <p class="text-gray-400 mb-6">Platform pembelajaran matematika interaktif dengan visualisasi modern</p>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-blue-500/20 p-4 rounded-lg border border-blue-500/30">
-              <div class="text-2xl mb-2">📊</div>
-              <div class="font-semibold">Perhitungan Cepat</div>
-              <div class="text-sm text-gray-400">FPB & KPK otomatis</div>
+            <div class="enhanced-card p-4 border border-blue-500/30">
+              <div class="text-3xl mb-2">⚡</div>
+              <div class="font-semibold">Perhitungan Instan</div>
+              <div class="text-sm text-gray-400">Algoritma optimized</div>
             </div>
-            <div class="bg-green-500/20 p-4 rounded-lg border border-green-500/30">
-              <div class="text-2xl mb-2">🌳</div>
-              <div class="font-semibold">Visualisasi Tree</div>
+            <div class="enhanced-card p-4 border border-green-500/30">
+              <div class="text-3xl mb-2">🌳</div>
+              <div class="font-semibold">Visualisasi 3D</div>
               <div class="text-sm text-gray-400">Pohon faktor interaktif</div>
             </div>
-            <div class="bg-purple-500/20 p-4 rounded-lg border border-purple-500/30">
-              <div class="text-2xl mb-2">⚡</div>
-              <div class="font-semibold">Real-time</div>
-              <div class="text-sm text-gray-400">Hasil langsung</div>
+            <div class="enhanced-card p-4 border border-purple-500/30">
+              <div class="text-3xl mb-2">📊</div>
+              <div class="font-semibold">Analytics</div>
+              <div class="text-sm text-gray-400">Statistik mendalam</div>
             </div>
           </div>
         </div>
@@ -163,18 +196,32 @@
 
       <!-- Results Area -->
       <div id="resultsArea" class="hidden space-y-6">
-        <!-- Summary Cards -->
+        <!-- Enhanced Summary Cards -->
         <div id="summaryCards" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6"></div>
         
         <!-- Detailed Results -->
         <div id="detailedResults" class="space-y-6"></div>
+        
+        <!-- Comparison Chart -->
+        <div id="comparisonChart" class="enhanced-card p-6 card-hover">
+          <h3 class="text-xl font-bold mb-4 text-center">Perbandingan Visual</h3>
+          <div id="chartContainer" class="h-64 flex items-center justify-center">
+            <canvas id="comparisonCanvas" width="400" height="200"></canvas>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Floating Action Button -->
+  <button class="fab tooltip" data-tooltip="Export Hasil" onclick="exportResults()">
+    💾
+  </button>
+
   <!-- Overlay for mobile -->
   <div id="overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden" onclick="toggleSidebar()"></div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
+
 </body>
 </html>
